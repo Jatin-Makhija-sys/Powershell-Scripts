@@ -111,15 +111,23 @@ if (Get-PnPMicrosoft365Group -identity $displayname) {
 
 Elseif ($Teams -eq 'N') {
          Write-verbose "Teams Column Value set to $Teams for $displayname" 
-         Write-verbose "Creating M365 Group + SPO Site without connected Teams for $displayname" 
-         New-PnPMicrosoft365Group -DisplayName $displayname -Description $description -MailNickname $nickname -Owners $arrayOfOwners -Members $arrayOfMembers -IsPrivate
+         Write-verbose "Creating M365 Group + SPO Site without connected Teams for $displayname"
+         try { 
+         New-PnPMicrosoft365Group -DisplayName $displayname -Description $description -MailNickname $nickname -Owners $arrayOfOwners -Members $arrayOfMembers -IsPrivate | out-null
+         } catch {
+         LogWrite "$displayname *  could not be created"
+         }
          LogWrite "$displayname *  created without Teams Site"
 }
 
 else {
     Write-verbose "Teams Column Value set to $Teams for $displayname"
     Write-verbose "Creating M365 Group + SPO Site with connected Teams for $displayname" 
-    New-PnPMicrosoft365Group -DisplayName $displayname -Description $description -MailNickname $nickname -Owners $arrayOfOwners -Members $arrayOfMembers -IsPrivate -CreateTeam  
+    try{
+    New-PnPMicrosoft365Group -DisplayName $displayname -Description $description -MailNickname $nickname -Owners $arrayOfOwners -Members $arrayOfMembers -IsPrivate -CreateTeam | out-null 
+    } catch {
+    LogWrite "$displayname *  could not be created"
+    }
     LogWrite "$displayname * created with Teams Site"
      }
   }
