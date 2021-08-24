@@ -11,8 +11,9 @@ with Sharepoint Sites (with or without Teams Site).
 .NOTES     
         Name       : Create-M365GroupwithSPOSite  
         Author     : Jatin Makhija  
-        Version    : 1.0.0  
+        Version    : 1.0.1  
         DateCreated: 13-08-2021 
+        DateUpdated: 24-08-2021
         Blog       : https://www.techpress.net
          
 .LINK 
