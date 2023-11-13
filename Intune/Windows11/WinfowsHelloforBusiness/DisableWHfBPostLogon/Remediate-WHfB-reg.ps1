@@ -58,7 +58,6 @@ if ($regKeyExists) {
     foreach ($valueName in $valueNames) {
         New-ItemProperty -Path $regKeyPath -Name $valueName -PropertyType DWORD -Value $requiredValue
         Write-Host "Registry key '$regKeyPath' and entry '$valueName' created with the required value '$requiredValue'"
-        Exit 0
     }
 }
 
