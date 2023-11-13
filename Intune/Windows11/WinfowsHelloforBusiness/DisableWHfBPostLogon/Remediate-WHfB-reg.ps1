@@ -16,7 +16,6 @@ and set to correct values, if not, it will fix it
 https://cloudinfra.net 
 #>
 
-
 # Specify the registry key path
 $regKeyPath = "HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork"
 
