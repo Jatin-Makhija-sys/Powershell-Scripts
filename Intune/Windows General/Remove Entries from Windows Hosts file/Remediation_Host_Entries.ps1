@@ -15,11 +15,11 @@
 .NOTES
     Author: Jatin Makhija
     Copyright: cloudinfra.net
-    Version: 1.1.0
+    Version: 1.0
 
 .EXAMPLE
     To run the script:   
-    .\RemoveFoundEntriesFromHosts.ps1 
+    .\Remediation_Host_Entries.ps1
     This will check the FoundEntries.txt file for host entries and remove them from the hosts file.    
 #>
 
@@ -32,10 +32,16 @@ $foundEntriesFilePath = Join-Path -Path $windowsDir -ChildPath "Web\FoundEntries
 # Define the path to the hosts file using Join-Path
 $hostsFilePath = Join-Path -Path $windowsDir -ChildPath "System32\drivers\etc\hosts"
 
+function Normalize-Entry {
+    param (
+        [string]$entry
+    )
+    return ($entry -replace "\s+", " ").Trim()
+}
+
 # Check if the FoundEntries.txt file exists
 if (Test-Path $foundEntriesFilePath) {
-    # Read the entries to be removed from the file
-    $foundEntries = Get-Content -Path $foundEntriesFilePath
+    $foundEntries = Get-Content -Path $foundEntriesFilePath | ForEach-Object { Normalize-Entry $_ }
 
     # Read the current contents of the hosts file
     $hostsFileContent = Get-Content -Path $hostsFilePath
@@ -43,14 +49,15 @@ if (Test-Path $foundEntriesFilePath) {
     # Initialize an array to store the updated hosts file content
     $updatedHostsFileContent = @()
 
-    # Loop through each line in the hosts file
     foreach ($line in $hostsFileContent) {
+        $normalizedLine = Normalize-Entry $line
+
         # Check if the line is NOT in the found entries list
-        if ($foundEntries -notcontains $line) {
+        if ($foundEntries -notcontains $normalizedLine) {
             # If the line is not found in the list, add it to the updated content
             $updatedHostsFileContent += $line
         } else {
-            Write-Output "Removing entry: $line"
+            Write-Output "Removing entry: $normalizedLine"
         }
     }
 

@@ -15,22 +15,23 @@
 
 .NOTES
     Author: Jatin Makhija
-    Copyright: cloudinfra.net
-    Version: 1.1.0
+    Copyright: Cloudinfra.net
+    Version: 1.0
     
 .EXAMPLE
     To run the script and check for existing host entries:
-    .\Check_Hosts.ps1
+    .\Detection_Host_Entries.ps1
     
     This will check if the specified entries exist in the hosts file, and output any found entries.
 #>
+
 $hostEntries = @(
     @{ ipAddress = "192.168.1.23"; hostname = "cloudinfra.net" },
     @{ ipAddress = "159.233.111.000"; hostname = "techpress.net" },
     @{ ipAddress = "1.2.3.4"; hostname = "testsite.com" }
 )
 
-# Use $env:Windir for dynamic path creation
+# Use $env:Windir Enviornment variable
 $windowsDir = $env:Windir
 
 # Build paths dynamically using Join-Path
@@ -49,16 +50,28 @@ $hostsFileContent = Get-Content -Path $hostsFilePath | Where-Object {$_ -notmatc
 # Initialize an array to store found entries
 $foundEntries = @()
 
+function Normalize-Entry {
+    param (
+        [string]$entry
+    )
+    return ($entry -split '\s+' | ForEach-Object { $_.Trim() }) -join ' '
+}
+
 # Check each host entry in the list
 foreach ($hostEntry in $hostEntries) {
-    $entryString = "$($hostEntry.ipAddress) $($hostEntry.hostname)"
+    # Normalize the entry from $hostEntries
+    $entryString = Normalize-Entry "$($hostEntry.ipAddress) $($hostEntry.hostname)"
     Write-Output "Checking if hosts file contains record: $entryString"
 
-    if ($hostsFileContent -contains $entryString) {
-        Write-Output "Host $entryString exists."
-        $foundEntries += $entryString
-    } else {
-        Write-Output "Host $entryString doesn't exist in the hosts file."
+    # Normalize each line from the hosts file before comparison
+    foreach ($line in $hostsFileContent) {
+        $normalizedLine = Normalize-Entry $line
+
+        if ($normalizedLine -eq $entryString) {
+            Write-Output "Host $entryString exists."
+            $foundEntries += $entryString
+            break
+        }
     }
 }
 
