@@ -1,12 +1,21 @@
 <#
 .DESCRIPTION
-    Checks the existence of the cloudinfra.net registry key and its values. If it does not exist, it creates it.
+    Remediates the cloudinfra.net registry key and values under the current user's context. 
+    If it does not exist, it creates it, even if the user does not have direct edit rights.
     
     Author: Jatin Makhija
     Version: 1.0.0
 #>
 
-$regPath = "HKLM:\Software\cloudinfra.net"
+# Open Registry session in current user’s drive
+New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS -ErrorAction SilentlyContinue | Out-Null
+
+# Get the current user SID
+$user = Get-WmiObject -Class Win32_ComputerSystem | Select-Object -ExpandProperty UserName
+$sid = (New-Object System.Security.Principal.NTAccount($user)).Translate([System.Security.Principal.SecurityIdentifier]).Value
+
+# Set the path to the current user's registry location
+$regPath = "HKU:\$sid\Software\cloudinfra.net"
 
 # Define expected values and types
 $regValues = @{
@@ -27,7 +36,7 @@ $typeMap = @{
 if (-not (Test-Path $regPath)) {
     try {
         Write-Host "Creating Reg Key"
-        New-Item -Path HKLM:\Software -Name cloudinfra.net -Force | Out-Null
+        New-Item -Path "HKU:\$sid\Software" -Name "cloudinfra.net" -Force | Out-Null
         foreach ($key in $regValues.Keys) {
             $value = $regValues[$key]
             New-ItemProperty -Path $regPath -Name $key -Value $value.Data -PropertyType $value.Type -Force | Out-Null
