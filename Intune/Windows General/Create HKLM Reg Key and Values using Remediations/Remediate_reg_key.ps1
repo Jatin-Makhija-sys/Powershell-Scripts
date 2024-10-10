@@ -1,9 +1,11 @@
 <#
 .DESCRIPTION
-    Checks the existence of the cloudinfra.net registry key and its values. If it does not exist, it creates it.
+    Checks the existence of the cloudinfra.net registry key and its values
+    in HKLM registry node. If it does not exist, it creates it.
     
     Author: Jatin Makhija
     Version: 1.0.0
+    Copyright: Cloudinfra.net
 #>
 
 $regPath = "HKLM:\Software\cloudinfra.net"

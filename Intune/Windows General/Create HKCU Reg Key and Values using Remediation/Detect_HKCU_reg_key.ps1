@@ -1,8 +1,11 @@
 <#
 .DESCRIPTION
-    Checks the existence of the cloudinfra.net registry key and its values.
+    Checks the existence of the cloudinfra.net registry key in 
+    HKCU registry node and its values.
+
     Author: Jatin Makhija
     Version: 1.0.0
+    Copyright: Cloudinfra.net
 #>
 
 $regPath = "HKCU:\Software\cloudinfra.net"

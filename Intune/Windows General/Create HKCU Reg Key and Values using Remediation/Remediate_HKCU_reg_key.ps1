@@ -5,6 +5,7 @@
     
     Author: Jatin Makhija
     Version: 1.0.0
+    Copyright: Cloudinfra.net
 #>
 
 # Open Registry session in current user’s drive
