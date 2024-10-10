@@ -1,62 +1,44 @@
 <#
 .DESCRIPTION
-    Below Powershell script will Check the existence of
-    cloudinfra.net registry Key and given values.
-
+    Checks the existence of the cloudinfra.net registry key and its values.
     Author: Jatin Makhija
-    Site: cloudinfra.net
     Version: 1.0.0
 #>
 
-# Registry path to check
 $regPath = "HKLM:\Software\cloudinfra.net"
-
-# Define registry values and their expected data
 $regValues = @{
-    "Location" = @{
-        Data = "United Kingdom"
-        Type = "String"
-    }
-    "Status" = @{
-        Data = "1"
-        Type = "String"
-    }
-    # Placeholder for DWord values checking
-    # "ExampleDWord" = @{
-    #     Data = 123
-    #     Type = "DWord"
-    # }
+    "Location" = @{ Data = "United Kingdom"; Type = "String" }
+    "Status" = @{ Data = "1"; Type = "String" }
 }
 
-# Check if the registry path exists
+$typeMap = @{
+    "String" = [Microsoft.Win32.RegistryValueKind]::String
+    "DWord" = [Microsoft.Win32.RegistryValueKind]::DWord
+    "QWord" = [Microsoft.Win32.RegistryValueKind]::QWord
+    "Binary" = [Microsoft.Win32.RegistryValueKind]::Binary
+    "MultiString" = [Microsoft.Win32.RegistryValueKind]::MultiString
+    "ExpandString" = [Microsoft.Win32.RegistryValueKind]::ExpandString
+}
+
 if (Test-Path $regPath) {
-    Write-Host "Registry key already exists. Checking values..."
-
+    Write-Host "Registry key exists. Checking values..."
     foreach ($key in $regValues.Keys) {
-        $expectedValue = $regValues[$key].Data
-        $expectedType = $regValues[$key].Type
-
-        # Get the actual value from the registry
-        $actualValue = Get-ItemProperty -Path $regPath -Name $key -ErrorAction SilentlyContinue
-
-        if ($null -eq $actualValue) {
-            Write-Host "Registry value '$key' not found!"
+        $expected = $regValues[$key]
+        $actual = Get-ItemProperty -Path $regPath -Name $key -ErrorAction SilentlyContinue
+        
+        if ($null -eq $actual) {
+            Write-Host "Registry value '$key' does not exist!"
             Exit 1
-        } elseif ($regValues[$key].Type -eq "DWord") {
-            # Convert DWord values to integers for comparison
-            if ($actualValue.$key -ne [int]$expectedValue) {
-                Write-Host "Registry value '$key' does not match the expected value!"
-                Exit 1
-            }
-        } else {
-            # For String and other types, do a direct comparison
-            if ($actualValue.$key -ne $expectedValue) {
-                Write-Host "Registry value '$key' does not match the expected value!"
-                Exit 1
-            }
+        }
+        
+        $actualValue = $actual.$key
+        $actualType = (Get-Item -Path $regPath).GetValueKind($key)
+
+        if ($actualType -ne $typeMap[$expected.Type] -or $actualValue -ne $expected.Data) {
+            Write-Host "Registry value '$key' is of type $actualType, expected $($expected.Type) or value does not match!"
+            Exit 1
         }
     }
-
     Write-Host "All registry values match the expected data. No action required."
     Exit 0
 } else {
