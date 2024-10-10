@@ -8,7 +8,7 @@
 $regPath = "HKLM:\Software\cloudinfra.net"
 $regValues = @{
     "Location" = @{ Data = "United Kingdom"; Type = "String" }
-    "Status" = @{ Data = "1"; Type = "String" }
+    "Status" = @{ Data = "1"; Type = "Dword" }
 }
 
 $typeMap = @{
