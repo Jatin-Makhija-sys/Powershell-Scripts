@@ -1,5 +1,4 @@
 Script header (System shell)
-
 #!/bin/sh
 
 #Modify accountname and password variables as per your requirement
