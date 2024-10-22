@@ -1,7 +1,7 @@
 # Install Microsoft Graph module if not already installed
 Install-Module Microsoft.Graph -Scope CurrentUser
 
-# Import the Microsoft Graph module
+# Import Microsoft Graph module
 Import-Module Microsoft.Graph
 
 # Connect to Microsoft Graph with required permissions (Delegated or Application)
@@ -16,12 +16,10 @@ $user = Get-MgUser -UserId $UserPrincipalName
 # Get assigned licenses for the specific user
 $licenses = Get-MgUserLicenseDetail -UserId $user.Id
 
-# Create an array to store the result
 $result = @()
 
 foreach ($license in $licenses) {
     foreach ($plan in $license.ServicePlans) {
-        # Collect user, SKU, and ServicePlan information
         $result += [pscustomobject]@{
             UserPrincipalName = $user.UserPrincipalName
             DisplayName       = $user.DisplayName
@@ -33,6 +31,5 @@ foreach ($license in $licenses) {
 }
 
 # Export result to CSV
-$result | Export-Csv -Path "C:\Graph_User_License.csv" -NoTypeInformation
-
-Write-Host "Export completed. File saved as C:\Graph_User_License.csv"
+$result | Export-Csv -Path "C:\M365_User_Licenses.csv" -NoTypeInformation
+Write-Host "Export completed. File saved as C:\M365_User_Licenses.csv"
