@@ -8,7 +8,7 @@ Import-Module Microsoft.Graph
 Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All"
 
 # Specify the UserPrincipalName of the user you want to check
-$UserPrincipalName = "user@domain.com"
+$UserPrincipalName = "jatin.makhija@techpress.net"
 
 # Get user information using Microsoft Graph
 $user = Get-MgUser -UserId $UserPrincipalName
