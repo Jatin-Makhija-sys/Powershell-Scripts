@@ -18,7 +18,6 @@ foreach ($user in $allUsers) {
 
     foreach ($license in $licenses) {
         foreach ($plan in $license.ServicePlans) {
-            # Collect user, SKU, and ServicePlan information
             $result += [pscustomobject]@{
                 UserPrincipalName = $user.UserPrincipalName
                 DisplayName       = $user.DisplayName
@@ -31,5 +30,5 @@ foreach ($user in $allUsers) {
 }
 
 # Export result to CSV
-$result | Export-Csv -Path "C:\Graph_AllUsers_Licenses.csv" -NoTypeInformation
-Write-Host "Export completed. File saved as C:\Graph_AllUsers_Licenses.csv"
+$result | Export-Csv -Path "C:\M365_AllUsers_Licenses.csv" -NoTypeInformation
+Write-Host "Export completed. File saved as C:\M365_AllUsers_Licenses.csv"
