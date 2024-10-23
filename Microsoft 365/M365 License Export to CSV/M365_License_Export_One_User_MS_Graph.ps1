@@ -1,17 +1,8 @@
-# Install Microsoft Graph module if not already installed
-Install-Module Microsoft.Graph -Scope CurrentUser
-
-# Import Microsoft Graph module
-Import-Module Microsoft.Graph
-
-# Connect to Microsoft Graph with required permissions (Delegated or Application)
-Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All"
-
-# Specify the UserPrincipalName of the user you want to check
-$UserPrincipalName = "jatin.makhija@techpress.net"
+# Specify the userPrincipalName of the user you want to check
+$userPrincipalName = "jatin.makhija@techpress.net"
 
 # Get user information using Microsoft Graph
-$user = Get-MgUser -UserId $UserPrincipalName
+$user = Get-MgUser -UserId $userPrincipalName
 
 # Get assigned licenses for the specific user
 $licenses = Get-MgUserLicenseDetail -UserId $user.Id
@@ -21,11 +12,11 @@ $result = @()
 foreach ($license in $licenses) {
     foreach ($plan in $license.ServicePlans) {
         $result += [pscustomobject]@{
-            UserPrincipalName = $user.UserPrincipalName
-            DisplayName       = $user.DisplayName
-            SKUPartNumber     = $license.SkuPartNumber
-            ServicePlanName   = $plan.ServicePlanName
-            ServicePlanStatus = $plan.ProvisioningStatus
+            userPrincipalName = $user.UserPrincipalName
+            displayName       = $user.DisplayName
+            skuPartNumber     = $license.SkuPartNumber
+            servicePlanName   = $plan.ServicePlanName
+            servicePlanStatus = $plan.ProvisioningStatus
         }
     }
 }
