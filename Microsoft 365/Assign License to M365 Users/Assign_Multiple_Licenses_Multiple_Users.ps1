@@ -2,17 +2,16 @@
 Connect-MgGraph -Scopes "User.ReadWrite.All", "Directory.ReadWrite.All"
 
 # Path to the text files containing user UPNs and SKU IDs
-$userUPNFile = "C:\Path\To\users.txt"  # Renamed variable
+$userUPNFile = "C:\Path\To\users.txt"  
 $skuFile = "C:\Path\To\skuids.txt"
 
 # Read user UPNs and SKU IDs from the respective files
 $upnList = Get-Content -Path $userUPNFile  
 $skuIds = Get-Content -Path $skuFile
 
-# Loop through each user and assign the licenses
-foreach ($upn in $upnList) {  # Renamed variable
+foreach ($upn in $upnList) {  
     # Get user by UPN
-    $user = Get-MgUser -Filter "userPrincipalName eq '$upn'"  # Renamed variable
+    $user = Get-MgUser -Filter "userPrincipalName eq '$upn'"  
     
     if ($user) {
         # Prepare the license assignment object
@@ -29,12 +28,12 @@ foreach ($upn in $upnList) {  # Renamed variable
         # Assign licenses to the user
         try {
             Set-MgUserLicense -UserId $user.Id -AddLicenses $licenseAssignment.AddLicenses -RemoveLicenses $licenseAssignment.RemoveLicenses
-            Write-Host "Successfully assigned licenses to $upn"  # Renamed variable
+            Write-Host "Successfully assigned licenses to $upn"  
         } catch {
-            Write-Host "Failed to assign licenses to $upn. Error: $_"  # Renamed variable
+            Write-Host "Failed to assign licenses to $upn. Error: $_"  
         }
     } else {
-        Write-Host "User $upn not found"  # Renamed variable
+        Write-Host "User $upn not found"  
     }
 }
 
