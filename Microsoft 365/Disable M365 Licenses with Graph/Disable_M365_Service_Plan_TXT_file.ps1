@@ -8,7 +8,7 @@
 #>
 
 # Connect to Microsoft Graph
-Connect-MgGraph -Scopes User.ReadWrite.All
+Connect-MgGraph -Scopes User.ReadWrite.All -NoWelcome
 
 # Path to the text file containing user UPNs (one per line)
 $usersFile = "C:\temp\users.txt"
