@@ -24,7 +24,7 @@ foreach ($App in $Applications) {
         $WScriptShell = New-Object -ComObject WScript.Shell
         $Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
         $Shortcut.TargetPath = $App.TargetPath
-        $Shortcut.WorkingDirectory = [System.IO.Path]::GetDirectoryName($App.TargetPath)  # Set working directory
+        $Shortcut.WorkingDirectory = [System.IO.Path]::GetDirectoryName($App.TargetPath)
         $Shortcut.Save()
         Write-Output "Shortcut for $($App.Name) created successfully at $ShortcutFile."
     }
