@@ -1,8 +1,7 @@
-# Define an array of shortcuts to delete
 $ShortcutFiles = @(
-    "$env:Public\Desktop\Zoom.lnk",
-    "$env:Public\Desktop\Teams.lnk",
-    "$env:Public\Desktop\OneDrive.lnk"
+    "$env:Public\Desktop\chrome.lnk",
+    "$env:Public\Desktop\bitwarden.lnk",
+    "$env:Public\Desktop\filezilla.lnk"
 )
 
 foreach ($ShortcutFile in $ShortcutFiles) {

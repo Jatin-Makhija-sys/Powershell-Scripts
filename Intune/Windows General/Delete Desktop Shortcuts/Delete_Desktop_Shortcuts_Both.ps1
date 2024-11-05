@@ -3,7 +3,7 @@ $UserDesktopPath = [Environment]::GetFolderPath("Desktop")
 $PublicDesktopPath = Join-Path -Path $env:Public -ChildPath "Desktop"
 
 # Define an array of shortcut filenames to delete
-$ShortcutsToDelete = @("Zoom.lnk", "Teams.lnk", "Slack.lnk")
+$ShortcutsToDelete = @("Bitwarden.lnk", "Chrome.lnk", "filezilla.lnk")
 
 # Function to delete shortcuts from a specified path
 function Delete-Shortcuts {
