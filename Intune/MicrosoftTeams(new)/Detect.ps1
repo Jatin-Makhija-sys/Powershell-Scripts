@@ -7,8 +7,8 @@ Below script will detect if New MS Teams App is installed.
 .NOTES     
         Name       : New MS Teams Detection Script
         Author     : Jatin Makhija  
-        Version    : 1.0.0  
-        DateCreated: 12-Jan-2024
+        Version    : 1.0.1  
+        DateUpdated: 06-Dec-2024
         Blog       : https://cloudinfra.net
          
 .LINK 
@@ -21,12 +21,15 @@ $teamsPath = "C:\Program Files\WindowsApps"
 $teamsInstallerName = "MSTeams_*"
 
 # Retrieve items in the specified path matching the filter pattern
-$teamsNew = Get-ChildItem -Path $teamsPath -Filter $teamsInstallerName
+$teamsNew = Get-ChildItem -Path $teamsPath -Filter $teamsInstallerName -ErrorAction SilentlyContinue
 
-# Check if Microsoft Teams is installed
-if ($teamsNew) {
+# Check if Microsoft Teams is listed in Appx packages
+$teamsAppx = Get-AppxPackage -AllUsers | Where-Object { $_.Name -like "*Teams*" }
+
+# Evaluate both conditions to determine if Microsoft Teams is installed
+if ($teamsNew -and $teamsAppx) {
     # Display message if Microsoft Teams is found
-    Write-Host "New Microsoft Teams client is installed."
+    Write-Host "Microsoft Teams client is installed."
     exit 0
 } else {
     # Display message if Microsoft Teams is not found
