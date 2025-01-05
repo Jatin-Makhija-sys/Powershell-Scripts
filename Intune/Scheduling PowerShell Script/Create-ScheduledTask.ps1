@@ -4,7 +4,7 @@
     Additionally, it ensures that the PowerShell script to be scheduled is copied to the required location.
     Author: Jatin Makhija
     Site: cloudinfra.net
-    Version: 2.1.0
+    Version: 1.1.0
 #>
 
 # Define configurable variables
@@ -15,7 +15,6 @@ $PowerShellScriptName = "RestartWindows.ps1" # Name of the PowerShell script
 $PowerShellScriptPath = "$ScriptsFolderPath\$PowerShellScriptName" # Final path to the PowerShell script
 $PowerShellExecutable = "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" # Path to PowerShell executable
 $PowerShellArguments = "-ExecutionPolicy Bypass -File `"$PowerShellScriptPath`""
-$TriggerType = "Daily" # Trigger type (e.g., Daily, Weekly)
 $TriggerTime = "3:00AM" # Time to run the task
 $TaskUser = "NT AUTHORITY\SYSTEM" # User to run the task
 $TaskLogonType = "ServiceAccount" # Logon type
