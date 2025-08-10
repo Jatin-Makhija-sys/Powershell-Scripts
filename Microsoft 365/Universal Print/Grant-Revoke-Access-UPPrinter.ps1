@@ -1,10 +1,45 @@
 <#
 .SYNOPSIS
-  Interactively Grant or Remove access (User/Group) to a Universal Print printer share.
+    Interactively grants or removes access for a user or group to a Universal Print printer share.
 
-.REQUIRES
-  Modules: UniversalPrintManagement, Microsoft.Graph.Users, Microsoft.Graph.Groups
+.DESCRIPTION
+    This script connects to Microsoft Universal Print and Microsoft Graph, then:
+    - Checks if required modules are installed (UniversalPrintManagement, Microsoft.Graph.Users, Microsoft.Graph.Groups) and installs them if missing.
+    - Prompts the administrator to choose between granting or removing access.
+    - Prompts for whether the principal is a user or a group.
+    - Resolves the user or group via Microsoft Graph (supports UPN/ObjectId for users and displayName/ObjectId for groups).
+    - Lists and allows selection of a Universal Print printer share (supports search and Out-GridView selection if available).
+    - Grants or removes access accordingly.
+
+.PARAMETER None
+    This script is fully interactive and does not require parameters. You will be prompted for:
+        - Action (Grant or Remove)
+        - Principal type (User or Group)
+        - Principal identifier (UPN/ObjectId or displayName/ObjectId)
+        - Printer share (search term or selection from a list)
+
+.REQUIREMENTS
+    - PowerShell 5.1 or later
+    - Internet connectivity to Microsoft Graph and Universal Print endpoints
+    - UniversalPrintManagement module
+    - Microsoft.Graph.Users and Microsoft.Graph.Groups modules
+    - Microsoft 365 account with appropriate admin rights to manage Universal Print
+
+.OUTPUTS
+    Console messages confirming the action taken (grant or remove) and the target principal and printer share.
+
+.EXAMPLE
+    PS C:\> .\Manage-UPPrinterShareAccess.ps1
+    [Interactive prompts follow]
+    This example connects to Universal Print, prompts for the required details, and grants or removes access accordingly.
+
+.NOTES
+    Author   : Jatin Makhija
+    Website  : https://techpress.net
+    Created  : 10-Aug-2025
+    Version  : 1.0
 #>
+
 
 $ErrorActionPreference = 'Stop'
 
