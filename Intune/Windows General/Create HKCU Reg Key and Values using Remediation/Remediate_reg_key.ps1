@@ -37,8 +37,9 @@ $typeMap = @{
 if (-not (Test-Path $regPath)) {
     try {
         Write-Host "Creating Reg Key"
-        New-Item -Path "HKU:\$sid\Software" -Name "cloudinfra.net" -Force | Out-Null
+        New-Item -Path $regPath -Force | Out-Null
         foreach ($key in $regValues.Keys) {
+            $value = $regValues[$key]
             New-ItemProperty -Path $regPath -Name $key -Value $value.Data -PropertyType $value.Type -Force | Out-Null
         }
         Exit 0
