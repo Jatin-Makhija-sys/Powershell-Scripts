@@ -30,7 +30,7 @@ if (-not (Test-Path $regPath)) {
         Write-Host "Creating Reg Key"
         New-Item -Path "HKU:\$sid\Software" -Name "cloudinfra.net" -Force | Out-Null
         foreach ($key in $regValues.Keys) {
-            $value = $regValues[$key]   # renamed variable
+            $value = $regValues[$key] 
             New-ItemProperty -Path $regPath -Name $key -Value $value.Data -PropertyType $value.Type -Force | Out-Null
         }
         Exit 0
@@ -43,7 +43,7 @@ if (-not (Test-Path $regPath)) {
 else {
     Write-Host "Reg Key already exists. Checking values..."
     foreach ($key in $regValues.Keys) {
-        $value  = $regValues[$key]   # renamed variable
+        $value  = $regValues[$key]  
         $actual = Get-ItemProperty -Path $regPath -Name $key -ErrorAction SilentlyContinue
 
         if ($null -eq $actual) {
