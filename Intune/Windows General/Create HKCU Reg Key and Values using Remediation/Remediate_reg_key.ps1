@@ -12,7 +12,7 @@ $regPath = "HKU:\$sid\Software\cloudinfra.net"
 # Define expected values and types
 $regValues = @{
     "Location" = @{ Data = "United Kingdom"; Type = "String" }
-    "Status"   = @{ Data = "1";              Type = "String" }
+    "Status"   = @{ Data = "1";              Type = "String" }  # String on purpose
 }
 
 $typeMap = @{
@@ -30,8 +30,8 @@ if (-not (Test-Path $regPath)) {
         Write-Host "Creating Reg Key"
         New-Item -Path "HKU:\$sid\Software" -Name "cloudinfra.net" -Force | Out-Null
         foreach ($key in $regValues.Keys) {
-            $expected = $regValues[$key]  
-            New-ItemProperty -Path $regPath -Name $key -Value $expected.Data -PropertyType $expected.Type -Force | Out-Null
+            $value = $regValues[$key]   # renamed variable
+            New-ItemProperty -Path $regPath -Name $key -Value $value.Data -PropertyType $value.Type -Force | Out-Null
         }
         Exit 0
     } catch {
@@ -43,22 +43,22 @@ if (-not (Test-Path $regPath)) {
 else {
     Write-Host "Reg Key already exists. Checking values..."
     foreach ($key in $regValues.Keys) {
-        $expected = $regValues[$key]
+        $value  = $regValues[$key]   # renamed variable
         $actual = Get-ItemProperty -Path $regPath -Name $key -ErrorAction SilentlyContinue
 
         if ($null -eq $actual) {
             Write-Host "Registry value '$key' does not exist! Creating it..."
-            New-ItemProperty -Path $regPath -Name $key -Value $expected.Data -PropertyType $expected.Type -Force | Out-Null
+            New-ItemProperty -Path $regPath -Name $key -Value $value.Data -PropertyType $value.Type -Force | Out-Null
             continue
         }
 
         $actualValue = $actual.$key
         $actualType  = (Get-Item -Path $regPath).GetValueKind($key)
 
-        if ($actualType -ne $typeMap[$expected.Type] -or $actualValue -ne $expected.Data) {
+        if ($actualType -ne $typeMap[$value.Type] -or $actualValue -ne $value.Data) {
             Write-Host "Incorrect '$key' value or type. Correcting it..."
             Remove-ItemProperty -Path $regPath -Name $key -ErrorAction SilentlyContinue
-            New-ItemProperty -Path $regPath -Name $key -Value $expected.Data -PropertyType $expected.Type -Force | Out-Null
+            New-ItemProperty -Path $regPath -Name $key -Value $value.Data -PropertyType $value.Type -Force | Out-Null
         }
     }
 
