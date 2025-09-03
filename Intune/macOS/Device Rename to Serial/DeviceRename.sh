@@ -1,115 +1,103 @@
 #!/bin/bash
+#
+# TechPress.net | Rename macOS device to Serial (Intune)
+# Original Author: paoloma@microsoft.com
+# Original Ref: (Microsoft Github) macOS/Config/DeviceRename/DeviceRename2.sh
+# Modified by: Jatin Makhija (techpress.net)
+# Version: 1.0
+# Summary: Renames a Mac to its serial number only. Toggle scope to ABM, BYOD, or ALL.
+# Usage: Set TARGET_SCOPE, deploy as an Intune shell script.
+# Requirements: Run as root. macOS 12+.
+# Logging: /Library/Logs/Microsoft/IntuneScripts/DeviceRename/DeviceRename.log
 
-#set -x
+# ===== Toggle scope =====
+# Set to one of: ABM | BYOD | ALL
+TARGET_SCOPE="ALL"
 
-############################################################################################
-##
-## Script to rename a Mac based on Country Code and Serial Number
-##
-############################################################################################
-
-## Copyright (c) 2023 Microsoft Corp. All rights reserved.
-## Scripts are not supported under any Microsoft standard support program or service. The scripts are provided AS IS without warranty of any kind.
-## Microsoft disclaims all implied warranties including, without limitation, any implied warranties of merchantability or of fitness for a
-## particular purpose. The entire risk arising out of the use or performance of the scripts and documentation remains with you. In no event shall
-## Microsoft, its authors, or anyone else involved in the creation, production, or delivery of the scripts be liable for any damages whatsoever
-## (including, without limitation, damages for loss of business profits, business interruption, loss of business information, or other pecuniary
-## loss) arising out of the use of or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility
-## of such damages.
-## Feedback: paoloma@microsoft.com
-
-## Define variables
 appname="DeviceRename"
-logandmetadir="/Library/Logs/Microsoft/IntuneScripts/$appname"
-log="$logandmetadir/$appname.log"
-CountryCode="FI"
-UAMDMStatus=$(profiles status -type enrollment | grep "Enrolled via DEP: No")
+logdir="/Library/Logs/Microsoft/IntuneScripts/$appname"
+log="$logdir/$appname.log"
 
-## Check if the log directory has been created
-if [ -d $logandmetadir ]; then
-    ## Already created
-    echo "# $(date) | Log directory already exists - $logandmetadir"
-else
-    ## Creating Metadirectory
-    echo "# $(date) | creating log directory - $logandmetadir"
-    mkdir -p $logandmetadir
-fi
-
-# start logging
+mkdir -p "$logdir"
 exec &> >(tee -a "$log")
 
-# Begin Script Body
 echo ""
 echo "##############################################################"
 echo "# $(date) | Starting $appname"
-echo "############################################################"
-echo "Writing log output to [$log]"
-echo ""
+echo "##############################################################"
 
-## Check if device is not enrolled to Apple Business Manager (ABM). If so, we will terminate this script immediately. Otherwise, we will continue.
+# Detect ABM (DEP) enrollment: returns "Yes" or "No"
+dep_status="$(profiles status -type enrollment 2>/dev/null | awk -F': ' '/Enrolled via DEP/ {print $2}')"
+dep_status="${dep_status:-No}"  # default to No if not found
+echo "$(date) | ABM (DEP) enrollment: $dep_status"
 
-echo " $(date) | Checking if this macOS-device is enrolled by ABM or not..."
-if [ "$UAMDMStatus" == "Enrolled via DEP: No" ]; then
-   echo " $(date) | This device is not enrolled by ABM, device name will not be changed."
-   exit 0
-else
-   echo " $(date) | This device is enrolled by ABM"
+# Scope filter
+case "$TARGET_SCOPE" in
+  "ABM")
+    if [ "$dep_status" != "Yes" ]; then
+      echo "$(date) | Skipping: BYOD device and scope is ABM."
+      exit 0
+    fi
+    ;;
+  "BYOD")
+    if [ "$dep_status" = "Yes" ]; then
+      echo "$(date) | Skipping: ABM device and scope is BYOD."
+      exit 0
+    fi
+    ;;
+  "ALL") : ;;  # proceed
+  *)
+    echo "$(date) | Invalid TARGET_SCOPE '$TARGET_SCOPE'. Use ABM, BYOD, or ALL."
+    exit 1
+    ;;
+esac
+
+# Get serial (fast, reliable)
+SerialNum="$(ioreg -rd1 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformSerialNumber/ {print $4}')"
+if [ -z "$SerialNum" ]; then
+  echo "$(date) | Unable to determine serial number."
+  exit 1
 fi
+echo "$(date) | Serial: $SerialNum"
 
-echo " $(date) | Checking if renaming is necessary"
+NewName="$SerialNum"
 
-SerialNum=$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}' | cut -d ':' -f2- | xargs)
-if [ "$?" = "0" ]; then
-  echo " $(date) | Serial detected as $SerialNum"
-else
-   echo "$(date) | Unable to determine serial number"
-   exit 1
-fi
+# Current names
+CurrentCN="$(scutil --get ComputerName 2>/dev/null || true)"
+CurrentHN="$(scutil --get HostName 2>/dev/null || true)"
+CurrentLHN="$(scutil --get LocalHostName 2>/dev/null || true)"
+echo "$(date) | Current ComputerName: ${CurrentCN:-<unset>}"
+echo "$(date) | Current HostName: ${CurrentHN:-<unset>}"
+echo "$(date) | Current LocalHostName: ${CurrentLHN:-<unset>}"
+echo "$(date) | Target name: $NewName"
 
-CurrentNameCheck=$(scutil --get ComputerName)
-if [ "$?" = "0" ]; then
-  echo " $(date) | Current computername detected as $CurrentNameCheck"
-else
-   echo "$(date) | Unable to determine current name"
-   exit 1
-fi
-
-echo " $(date) | Retrieved serial number: $SerialNum"
-echo " $(date) | Detected country as: $CountryCode"
-echo " $(date) | Building the new name..."
-NewName=$CountryCode-$SerialNum
-
-echo " $(date) | Generated Name: $NewName"
-
-if [[ "$CurrentNameCheck" == "$NewName" ]]
-  then
-  echo " $(date) | Rename not required already set to [$CurrentNameCheck]"
+# Short-circuit if already set
+if [ "$CurrentCN" = "$NewName" ] && [ "$CurrentHN" = "$NewName" ] && [ "$CurrentLHN" = "$NewName" ]; then
+  echo "$(date) | Rename not required. Already set."
   exit 0
 fi
 
-# Setting ComputerName
-scutil --set ComputerName $NewName
-if [ "$?" = "0" ]; then
-   echo " $(date) | Computername changed from $CurrentNameCheck to $NewName"
+# Apply names
+if scutil --set ComputerName "$NewName"; then
+  echo "$(date) | ComputerName set to $NewName"
 else
-   echo " $(date) | Failed to rename the device from $CurrentNameCheck to $NewName"
-   exit 1
+  echo "$(date) | Failed to set ComputerName"
+  exit 1
 fi
 
-# Setting HostName
-scutil --set HostName $NewName
-if [ "$?" = "0" ]; then
-   echo " $(date) | HostName changed from $CurrentNameCheck to $NewName"
+if scutil --set HostName "$NewName"; then
+  echo "$(date) | HostName set to $NewName"
 else
-   echo " $(date) | Failed to rename the device from $CurrentNameCheck to $NewName"
-   exit 1
+  echo "$(date) | Failed to set HostName"
+  exit 1
 fi
 
-# Setting LocalHostName
-scutil --set LocalHostName $NewName
-if [ "$?" = "0" ]; then
-   echo " $(date) | LocalHostName changed from $CurrentNameCheck to $NewName"
+if scutil --set LocalHostName "$NewName"; then
+  echo "$(date) | LocalHostName set to $NewName"
 else
-   echo " $(date) | Failed to rename the device from $CurrentNameCheck to $NewName"
-   exit 1
+  echo "$(date) | Failed to set LocalHostName"
+  exit 1
 fi
+
+echo "$(date) | Rename complete."
+exit 0
