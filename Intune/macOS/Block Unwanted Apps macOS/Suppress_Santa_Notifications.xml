@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadType</key>
+  <string>Configuration</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+  <key>PayloadIdentifier</key>
+  <string>net.techpress.profile.backgrounditems.santa</string>
+  <key>PayloadUUID</key>
+  <string>F4E94F26-016D-4E7E-A478-9BD253FF06F4</string>
+  <key>PayloadDisplayName</key>
+  <string>Background Items – Santa (TechPress)</string>
+  <key>PayloadDescription</key>
+  <string>Allows Santa (North Pole Security) background items to run without user prompts. Deployed via Intune to macOS 13+.</string>
+  <key>PayloadOrganization</key>
+  <string>techpress.net</string>
+  <key>PayloadScope</key>
+  <string>System</string>
+  <key>PayloadContent</key>
+  <array>
+    <dict>
+      <key>PayloadType</key>
+      <string>com.apple.servicemanagement</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+      <key>PayloadIdentifier</key>
+      <string>net.techpress.profile.backgrounditems.santa.rules</string>
+      <key>PayloadUUID</key>
+      <string>1902139B-AAF3-422B-8F75-046800CC8436</string>
+      <key>PayloadDisplayName</key>
+      <string>Managed Login Items Rules</string>
+      <key>PayloadEnabled</key>
+      <true/>
+      <key>Rules</key>
+      <array>
+        <dict>
+          <key>Comment</key>
+          <string>Allow NPS Santa background items by Team Identifier</string>
+          <key>RuleType</key>
+          <string>TeamIdentifier</string>
+          <key>RuleValue</key>
+          <string>ZMCG7MLDV9</string>
+        </dict>
+      </array>
+    </dict>
+  </array>
+</dict>
+</plist>
