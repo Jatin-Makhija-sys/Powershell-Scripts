@@ -13,7 +13,7 @@
   <key>PayloadDisplayName</key>
   <string>Background Items – Santa (TechPress)</string>
   <key>PayloadDescription</key>
-  <string>Allows Santa (North Pole Security) background items to run without user prompts. Deployed via Intune to macOS 13+.</string>
+  <string>Suppress Santa Background Notifications</string>
   <key>PayloadOrganization</key>
   <string>techpress.net</string>
   <key>PayloadScope</key>
