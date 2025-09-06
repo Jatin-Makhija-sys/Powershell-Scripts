@@ -4,10 +4,10 @@
 <dict>
   <key>PayloadType</key><string>Configuration</string>
   <key>PayloadVersion</key><integer>1</integer>
-  <key>PayloadIdentifier</key><string>net.techpress.santa.lockdown.enterprise.v2</string>
-  <key>PayloadUUID</key><string>E0B9CA99-67B7-440E-B18C-581DD62A55C8</string>
-  <key>PayloadDisplayName</key><string>Santa – LOCKDOWN (TechPress Enterprise Allowlist v2)</string>
-  <key>PayloadDescription</key><string>Default-deny allowlisting with Santa. Adds clearer mode banners and keeps a concise enterprise allowlist.</string>
+  <key>PayloadIdentifier</key><string>net.techpress.santa.lockdown.enterprise</string>
+  <key>PayloadUUID</key><string>F5202458-15C4-4C70-9E4A-30F2DA4D180A</string>
+  <key>PayloadDisplayName</key><string>Santa – LOCKDOWN (TechPress Enterprise Allowlist)</string>
+  <key>PayloadDescription</key><string>Default-deny application allowlisting with Santa. Pre-allows common enterprise apps.</string>
   <key>PayloadOrganization</key><string>techpress.net</string>
   <key>PayloadScope</key><string>System</string>
   <key>PayloadContent</key>
@@ -15,23 +15,15 @@
     <dict>
       <key>PayloadType</key><string>com.northpolesec.santa</string>
       <key>PayloadVersion</key><integer>1</integer>
-      <key>PayloadIdentifier</key><string>net.techpress.santa.lockdown.enterprise.v2.payload</string>
-      <key>PayloadUUID</key><string>D173D5A9-7796-466D-ACB3-A2A2FB882A2F</string>
+      <key>PayloadIdentifier</key><string>net.techpress.santa.lockdown.enterprise.payload</string>
+      <key>PayloadUUID</key><string>936247CF-9178-4962-964B-9E43E89874CD</string>
       <key>PayloadDisplayName</key><string>Santa Configuration</string>
-
-      <!-- Modes -->
-      <key>ClientMode</key><integer>2</integer> <!-- 1=Monitor, 2=Lockdown -->
+      <key>ClientMode</key><integer>2</integer>
       <key>FailClosed</key><true/>
-
-      <!-- User messaging -->
-      <key>ModeNotificationLockdown</key><string>This Mac is protected by TechPress allowlisting (Lockdown).</string>
-      <key>ModeNotificationMonitor</key><string>TechPress allowlisting is in Monitor mode temporarily.</string>
       <key>BannedBlockMessage</key><string>This app is blocked by TechPress policy.</string>
-      <key>UnknownBlockMessage</key><string>This app is not approved yet. Please request approval.</string>
+      <key>UnknownBlockMessage</key><string>This app isn’t approved yet. Please request approval.</string>
       <key>EventDetailText</key><string>Request approval</string>
       <key>EventDetailURL</key><string>https://techpress.net/it-requests</string>
-
-      <!-- Static allow rules (keep small; add more via script or sync server) -->
       <key>StaticRules</key>
       <array>
         <dict>
@@ -64,8 +56,17 @@
           <key>rule_type</key><string>TEAMID</string>
           <key>policy</key><string>ALLOWLIST</string>
         </dict>
+	      <dict>
+          <key>identifier</key><string>EG7KH642X6</string>
+          <key>rule_type</key><string>TEAMID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+	      </dict>  	
       </array>
     </dict>
   </array>
 </dict>
 </plist>
+
+
+
+
