@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadType</key><string>Configuration</string>
+  <key>PayloadVersion</key><integer>1</integer>
+  <key>PayloadIdentifier</key><string>net.techpress.santa.lockdown.enterprise.v3</string>
+  <key>PayloadUUID</key><string>AE4AB0A5-E78B-4149-AFF2-D616DD0191C4</string>
+  <key>PayloadDisplayName</key><string>Santa – LOCKDOWN (TechPress Enterprise Allowlist v4)</string>
+  <key>PayloadDescription</key><string>Default-deny allowlisting apps.</string>
+  <key>PayloadOrganization</key><string>techpress.net</string>
+  <key>PayloadScope</key><string>System</string>
+  <key>PayloadContent</key>
+  <array>
+    <dict>
+      <key>PayloadType</key><string>com.northpolesec.santa</string>
+      <key>PayloadVersion</key><integer>1</integer>
+      <key>PayloadIdentifier</key><string>net.techpress.santa.lockdown.enterprise.v3.payload</string>
+      <key>PayloadUUID</key><string>1AEEB502-7E84-40F1-9DB9-AE8378C8B3CC</string>
+      <key>PayloadDisplayName</key><string>Santa Configuration</string>
+      <key>ClientMode</key><integer>2</integer>
+      <key>FailClosed</key><true/>
+      <key>ModeNotificationLockdown</key><string>This Mac is protected by TechPress allowlisting (Lockdown).</string>
+      <key>ModeNotificationMonitor</key><string>TechPress allowlisting is in Monitor mode temporarily.</string>
+      <key>BannedBlockMessage</key><string>This app is blocked by TechPress policy.</string>
+      <key>UnknownBlockMessage</key><string>This app is not approved yet. Please request approval.</string>
+      <key>EventDetailText</key><string>Request approval</string>
+      <key>EventDetailURL</key><string>https://techpress.net/app-requests-form</string>
+      <key>StaticRules</key>
+      <array>
+        <dict>
+          <key>identifier</key><string>UBF8T346G9</string>
+          <key>rule_type</key><string>TEAMID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+        </dict>
+        <dict>
+          <key>identifier</key><string>BQR82RBBHL:com.tinyspeck.slackmacgap</string>
+          <key>rule_type</key><string>SIGNINGID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+        </dict>
+        <dict>
+          <key>identifier</key><string>BJ4HAAB9B3:us.zoom.xos</string>
+          <key>rule_type</key><string>SIGNINGID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+        </dict>
+        <dict>
+          <key>identifier</key><string>EQHXZ8M8AV</string>
+          <key>rule_type</key><string>TEAMID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+        </dict>
+        <dict>
+          <key>identifier</key><string>DE8Y96K9QP</string>
+          <key>rule_type</key><string>TEAMID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+        </dict>
+        <dict>
+          <key>identifier</key><string>2BUA8C4S2C</string>
+          <key>rule_type</key><string>TEAMID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+        </dict>
+        <dict>
+          <key>identifier</key><string>EG7KH642X6</string>
+          <key>rule_type</key><string>TEAMID</string>
+          <key>policy</key><string>ALLOWLIST</string>
+	      </dict>  	
+      </array>
+    </dict>
+  </array>
+</dict>
+</plist>
