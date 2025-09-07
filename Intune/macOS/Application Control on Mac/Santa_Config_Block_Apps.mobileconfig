@@ -60,9 +60,10 @@
           <key>identifier</key><string>EG7KH642X6</string>
           <key>rule_type</key><string>TEAMID</string>
           <key>policy</key><string>ALLOWLIST</string>
-	     /dict>  	
+	     </dict>  	
       </array>
     </dict>
   </array>
 </dict>
 </plist>
+
