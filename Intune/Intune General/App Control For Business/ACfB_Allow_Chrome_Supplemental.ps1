@@ -28,8 +28,7 @@
 
 .EXAMPLE
     To generate a supplemental policy allowing Google Chrome:
-    .\ACfB_Allow_Chrome_Supplemental.ps1
-    
+    .\ACfB_Allow_Chrome_Supplemental.ps1    
     This will create an XML and a compiled CIP file that can be deployed through Intune or another 
     management solution as a supplemental policy to the existing base policy.
 #>
