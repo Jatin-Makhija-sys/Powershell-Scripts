@@ -9,7 +9,7 @@ $cert = Get-ChildItem Cert:\CurrentUser\My |
 if (-not $cert) { throw "Certificate with thumbprint $CertThumbprint not found in CurrentUser\My." }
 if (-not $cert.HasPrivateKey) { throw "Found cert, but it does NOT have a private key. Install a PFX or use CurrentUser\My." }
 
-# 2) Connect using the X509Certificate2 object
+#Connect using the X509Certificate2 object
 Connect-MgGraph -TenantId $TenantId -ClientId $ClientId -Certificate $cert
 
 # Optional sanity check
