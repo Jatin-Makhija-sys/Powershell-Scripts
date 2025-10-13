@@ -47,4 +47,5 @@ for %%S in (cryptsvc wuauserv bits msiserver usosvc dosvc) do (
 
 echo.
 echo [6/6] Done. A reboot is recommended (required for the Winsock reset).
+
 pause
