@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Enables Windows Spotlight for the signed-in user by removing only the
-    per-user policy values that disable Spotlight. Never creates or deletes the key.
+    per-user policy values that disable Spotlight.
 
 .DESCRIPTION
     If the policy key exists, removes these values under:
