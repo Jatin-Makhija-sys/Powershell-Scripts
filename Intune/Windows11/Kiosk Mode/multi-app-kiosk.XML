@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AssignedAccessConfiguration
+  xmlns="http://schemas.microsoft.com/AssignedAccess/2017/config"
+  xmlns:rs5="http://schemas.microsoft.com/AssignedAccess/201810/config"
+  xmlns:v4="http://schemas.microsoft.com/AssignedAccess/2021/config"
+  xmlns:v5="http://schemas.microsoft.com/AssignedAccess/2022/config">
+
+  <Profiles>
+    <!-- Restricted desktop with an allow-list (multi-app) -->
+    <Profile Id="{EDB3036B-780D-487D-A375-69369D8A8F78}">
+      <AllAppsList>
+        <AllowedApps>
+          <!-- UWP app by AUMID -->
+          <App AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"/>
+          <!-- Desktop app by full path -->
+          <App DesktopAppPath="C:\Windows\system32\cmd.exe" />
+          <App DesktopAppPath="%windir%\System32\WindowsPowerShell\v1.0\Powershell.exe" />
+          <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" rs5:AutoLaunch="true" rs5:AutoLaunchArguments="--kiosk https://www.contoso.com/ --edge-kiosk-type=public-browsing --kiosk-idle-timeout-minutes=2"/>
+          <!-- Add more apps as needed -->
+        </AllowedApps>
+      </AllAppsList>
+
+      <!-- Optional: hide or show taskbar -->
+      <Taskbar ShowTaskbar="true"/>
+
+      <!-- Optional: Start pins (Windows 11 22H2+) -->
+      <v5:StartPins>
+        <PinnedList>
+          <App AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"/>
+          <App DesktopAppPath="C:\Windows\system32\cmd.exe" />
+          <App DesktopAppPath="%windir%\System32\WindowsPowerShell\v1.0\Powershell.exe" />
+          <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" 
+        </PinnedList>
+      </v5:StartPins>
+    </Profile>
+  </Profiles>
+
+  <Configs>
+    <!-- Option A: create an auto-logon local standard account for unattended devices -->
+    <Config>
+      <AutoLogonAccount rs5:DisplayName="Cloud-Kiosk"/>
+      <DefaultProfile Id="{EDB3036B-780D-487D-A375-69369D8A8F78}"/>
+    </Config>
+
+    <!-- Option B: target a specific Entra ID user or group instead (example) -->
+    <!--
+    <Config>
+      <Account>AzureAD\user@contoso.com</Account>
+      <DefaultProfile Id="{EDB3036B-780D-487D-A375-69369D8A8F78}"/>
+    </Config>
+    -->
+  </Configs>
+</AssignedAccessConfiguration>
