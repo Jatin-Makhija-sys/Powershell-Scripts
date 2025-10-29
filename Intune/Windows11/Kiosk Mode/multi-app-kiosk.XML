@@ -15,7 +15,7 @@
           <!-- Desktop app by full path -->
           <App DesktopAppPath="C:\Windows\system32\cmd.exe" />
           <App DesktopAppPath="%windir%\System32\WindowsPowerShell\v1.0\Powershell.exe" />
-          <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" rs5:AutoLaunch="true" rs5:AutoLaunchArguments="--kiosk https://www.contoso.com/ --edge-kiosk-type=public-browsing --kiosk-idle-timeout-minutes=2"/>
+          <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" rs5:AutoLaunch="true" rs5:AutoLaunchArguments="--kiosk https://cloudinfra.net --edge-kiosk-type=public-browsing --kiosk-idle-timeout-minutes=2"/>
           <!-- Add more apps as needed -->
         </AllowedApps>
       </AllAppsList>
