@@ -69,7 +69,7 @@
 
   <Configs>
     <Config>
-      <AutoLogonAccount rs5:DisplayName="Test Kiosk"/>
+      <AutoLogonAccount rs5:DisplayName="Cloudinfra Kiosk"/>
       <DefaultProfile Id="{03578b85-ac78-4f8c-a963-96728bb276e6}"/>
     </Config>
   </Configs>
