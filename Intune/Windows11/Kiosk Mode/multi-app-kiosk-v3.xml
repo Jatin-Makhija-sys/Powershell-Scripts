@@ -17,7 +17,7 @@
       </AllAppsList>
 
       <rs5:FileExplorerNamespaceRestrictions>
-        <rs5:AllowedNamespace Name="Downloads"/>
+      <rs5:AllowedNamespace Name="Downloads"/>
       </rs5:FileExplorerNamespaceRestrictions>
 
       <v5:StartPins>
