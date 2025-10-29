@@ -8,7 +8,7 @@
     <Profile Id="{03578b85-ac78-4f8c-a963-96728bb276e6}">
       <AllAppsList>
         <AllowedApps>
-          <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe"/>
+          <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" rs5:AutoLaunch="true" rs5:AutoLaunchArguments="--kiosk https://cloudinfra.net --edge-kiosk-type=public-browsing --kiosk-idle-timeout-minutes=2"/>
           <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge_proxy.exe"/>
           <App AppUserModelId="Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe!App"/>
           <App DesktopAppPath="%windir%\explorer.exe"/>
@@ -24,16 +24,13 @@
               "desktopAppLink": "%ALLUSERSPROFILE%\\Microsoft\\Windows\\Start Menu\\Programs\\Microsoft Edge.lnk"
             },
             {
-              "desktopAppLink": "%ALLUSERSPROFILE%\\Microsoft\\Windows\\Start Menu\\Programs\\Launcher2.lnk"
-            },
-            {
               "desktopAppLink": "%ALLUSERSPROFILE%\\Microsoft\\Windows\\Start Menu\\Programs\\Windows PowerShell\\Windows PowerShell.lnk"
             },
             {
               "secondaryTile": {
                 "tileId": "MSEdge._pin_mjalfbhoimpkfjlpajnjkpknoe",
                 "arguments": " --pin-url=https://cloudinfra.net --profile-directory=Default --launch-tile",
-                "displayName": "Cloudinfra Website",
+                "displayName": "Cloudinfra Webpage",
                 "packagedAppId": "Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe!App",
                 "smallIconPath": "ms-appdata:///local/Pins/MSEdge._pin_mjalfbhoimpkfjlpajnjkpknoe/ContosoLogo.png",
                 "smallIcon": "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",
@@ -46,12 +43,33 @@
       </v5:StartPins>
 
       <Taskbar ShowTaskbar="true"/>
+      <v5:TaskbarLayout>
+        <![CDATA[
+        <?xml version="1.0" encoding="utf-8"?>
+        <LayoutModificationTemplate
+            xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
+            xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
+            xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout"
+            xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout"
+            Version="1">
+          <CustomTaskbarLayoutCollection>
+            <defaultlayout:TaskbarLayout>
+              <taskbar:TaskbarPinList>
+                <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer"/>
+                <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk"/>
+                <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"/>
+              </taskbar:TaskbarPinList>
+            </defaultlayout:TaskbarLayout>
+          </CustomTaskbarLayoutCollection>
+        </LayoutModificationTemplate>
+        ]]>
+      </v5:TaskbarLayout>
     </Profile>
   </Profiles>
 
   <Configs>
     <Config>
-      <AutoLogonAccount rs5:DisplayName="Cloudinfra-Kiosk"/>
+      <AutoLogonAccount rs5:DisplayName="Test Kiosk"/>
       <DefaultProfile Id="{03578b85-ac78-4f8c-a963-96728bb276e6}"/>
     </Config>
   </Configs>
