@@ -16,6 +16,10 @@
         </AllowedApps>
       </AllAppsList>
 
+      <rs5:FileExplorerNamespaceRestrictions>
+        <rs5:AllowedNamespace Name="Downloads"/>
+      </rs5:FileExplorerNamespaceRestrictions>
+
       <v5:StartPins>
         <![CDATA[
         {
@@ -24,7 +28,7 @@
               "desktopAppLink": "%ALLUSERSPROFILE%\\Microsoft\\Windows\\Start Menu\\Programs\\Microsoft Edge.lnk"
             },
             {
-              "desktopAppLink": "%ALLUSERSPROFILE%\\Microsoft\\Windows\\Start Menu\\Programs\\Windows PowerShell\\Windows PowerShell.lnk"
+              "desktopAppLink": "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Windows PowerShell\\Windows PowerShell.lnk"
             },
             {
               "secondaryTile": {
@@ -56,8 +60,8 @@
             <defaultlayout:TaskbarLayout>
               <taskbar:TaskbarPinList>
                 <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer"/>
+                <taskbar:DesktopApp DesktopApplicationLinkPath="%APPDATA%\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"/>
                 <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk"/>
-                <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"/>
               </taskbar:TaskbarPinList>
             </defaultlayout:TaskbarLayout>
           </CustomTaskbarLayoutCollection>
