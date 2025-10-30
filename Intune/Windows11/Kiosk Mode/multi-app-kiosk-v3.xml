@@ -11,7 +11,6 @@
           <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" rs5:AutoLaunch="true" rs5:AutoLaunchArguments="--kiosk https://cloudinfra.net --edge-kiosk-type=public-browsing --kiosk-idle-timeout-minutes=2"/>
           <App DesktopAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge_proxy.exe"/>
           <App AppUserModelId="Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe!App"/>
-          <App DesktopAppPath="%windir%\explorer.exe"/>
           <App DesktopAppPath="%windir%\System32\WindowsPowerShell\v1.0\PowerShell.exe"/>
         </AllowedApps>
       </AllAppsList>
@@ -59,7 +58,6 @@
           <CustomTaskbarLayoutCollection>
             <defaultlayout:TaskbarLayout>
               <taskbar:TaskbarPinList>
-                <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer"/>
                 <taskbar:DesktopApp DesktopApplicationLinkPath="%APPDATA%\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"/>
                 <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk"/>
               </taskbar:TaskbarPinList>
