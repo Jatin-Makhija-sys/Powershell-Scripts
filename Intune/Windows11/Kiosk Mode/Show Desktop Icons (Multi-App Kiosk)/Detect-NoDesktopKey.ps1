@@ -24,7 +24,7 @@ RunAs: SYSTEM (Intune detection)
 TestedOn: Windows 11 23H2 and later
 
 .EXAMPLE
-.\Detect-NoDesktopEnabled.ps1
+.\Detect-NoDesktopKey.ps1
 # Returns 0 if HKU\<UserSID>\...\Explorer\NoDesktop is DWORD 0, otherwise returns 1.
 
 .LINK

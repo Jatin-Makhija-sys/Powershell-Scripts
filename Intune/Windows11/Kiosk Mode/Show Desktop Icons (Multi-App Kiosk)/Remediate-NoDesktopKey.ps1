@@ -29,7 +29,7 @@ Idempotent: Yes
 TestedOn: Windows 11 23H2 and later
 
 .EXAMPLE
-.\Remediate-NoDesktopEnabled.ps1
+.\Remediate-NoDesktopKey.ps1
 # Ensures HKU\<UserSID>\...\Explorer\NoDesktop exists as DWORD 0. Returns 0 on success.
 
 .LINK
