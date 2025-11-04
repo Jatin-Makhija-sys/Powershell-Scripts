@@ -1,3 +1,32 @@
+<#
+.SYNOPSIS
+Removes a local printer queue by name on Windows, with simple logging.
+
+.DESCRIPTION
+This script removes a specified printer queue using the built-in PrintManagement cmdlets.
+It writes progress and results to both screen and a log file:
+  %ProgramData%\Microsoft\IntuneManagementExtension\Logs\Uninstall-Printer.log
+
+The log file is overwritten at the start of each run so it only contains entries from the latest execution.
+The script exits with code 0 on success and 1 on failure.
+
+.PARAMETER PrinterName
+The exact name of the printer queue to remove. Example: "Office MFP 3rd Floor".
+
+.EXAMPLE
+.\Uninstall-Printer.ps1 -PrinterName "Office MFP 3rd Floor"
+
+.EXAMPLE
+powershell.exe -ExecutionPolicy Bypass -File .\Uninstall-Printer.ps1 -PrinterName "Office MFP 3rd Floor"
+
+.NOTES
+Author: Jatin Makhija (cloudinfra.net)
+Version: 1.0.0
+Created: 2025-11-04
+Tested on: Windows 10 22H2, Windows 11 23H2/24H2
+Requirements: Administrator, Print Spooler service running
+#>
+
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
