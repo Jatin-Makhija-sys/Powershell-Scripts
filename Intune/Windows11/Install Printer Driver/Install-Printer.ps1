@@ -1,19 +1,9 @@
 <#
 .SYNOPSIS
-Installs a TCP/IP network printer on Windows by staging a driver, creating a port, and adding a printer.
+Installs a TCP/IP network printer on Windows
 
 .DESCRIPTION
-This script is designed for Intune Win32 deployments and interactive use. It performs the following steps:
-  1) Stages the specified printer driver (.INF) into the Windows Driver Store using pnputil.
-  2) Creates a Standard TCP/IP printer port for the given printer IP. 
-     - Uses Add-PrinterPort first, then falls back to WMI (Win32_TCPIPPrinterPort), and finally prnport.vbs.
-     - Does not require the printer to be reachable at install time.
-  3) Ensures the named printer driver exists (installed from the staged package).
-  4) Creates the printer queue with the provided name, driver, and port.
-  
-All actions are logged to:
-  %ProgramData%\Microsoft\IntuneManagementExtension\Logs\Install-Printer.log
-The log file is cleared at the start of each run so it only contains the latest execution.
+This script is designed for Installation of Printers via Intune Win32 app deployment
 
 .PARAMETER PrinterIP
 IPv4 address of the printer, for example 10.1.1.3.
@@ -43,12 +33,10 @@ Exit code 0 on success, 1 on failure.
 Author: Jatin Makhija (cloudinfra.net)
 Version: 1.2.0
 Created: 2025-11-04
-Tested on: Windows 11 23H2/24H2, Windows 10 22H2
-Requirements: Administrator, Print Spooler service running
-Logging: Overwrites log each run. Screen output mirrors log entries.
+Tested on: Windows 11 25H2
 
 .LINK
-N/A
+https://cloudinfra.net
 #>
 
 [CmdletBinding()]
@@ -60,7 +48,7 @@ param(
     [string]$PortName = ("Port_{0}" -f $PrinterIP)
 )
 
-# --- Logging (screen + file) ---
+# --- Logging
 $LogDir  = Join-Path $env:ProgramData "Microsoft\IntuneManagementExtension\Logs"
 $LogFile = Join-Path $LogDir "Install-Printer.log"
 if (-not (Test-Path $LogDir)) { New-Item -Type Directory -Path $LogDir -Force | Out-Null }
@@ -90,7 +78,6 @@ Log level. One of INFO, WARN, or ERROR.
         'WARN'  { Write-Warning $line }
         default { Write-Host $line }
     }
-    # file
     Add-Content -Path $LogFile -Value $line
 }
 
@@ -122,7 +109,7 @@ try {
         throw ("Driver staging failed (pnputil exit code {0})." -f $pnputilExit)
     }
 
-    # --- Create Standard TCP/IP port (robust, no reachability required) ---
+    # --- Create Standard TCP/IP port  ---
     Add-LogEntry ("Ensuring TCP/IP port exists for {0} (PortName='{1}')." -f $PrinterIP,$PortName)
 
     # Reuse an existing port with same name or same IP if one already exists
@@ -136,7 +123,7 @@ try {
 
         $portCreated = $false
 
-        # Primary: native Add-PrinterPort
+        # Primary command: Add-PrinterPort
         try {
             Add-PrinterPort -Name $PortName -PrinterHostAddress $PrinterIP -ErrorAction Stop
             $portCreated = $true
@@ -184,7 +171,7 @@ try {
             }
         }
 
-        # Verify we actually have the port
+        # Verify we actually have the port created
         $verifyPort = Get-PrinterPort -Name $PortName -ErrorAction SilentlyContinue
         if (-not $portCreated -or -not $verifyPort) {
             throw "Port '$PortName' could not be created."
@@ -192,7 +179,7 @@ try {
         Add-LogEntry "Port created and verified."
     }
 
-    # --- Ensure printer driver is installed (from the staged package) ---
+    # --- Ensure printer driver is installed  ---
     $driver = Get-PrinterDriver -Name $DriverName -ErrorAction SilentlyContinue
     if (-not $driver) {
         Add-LogEntry ("Adding printer driver '{0}'" -f $DriverName)
