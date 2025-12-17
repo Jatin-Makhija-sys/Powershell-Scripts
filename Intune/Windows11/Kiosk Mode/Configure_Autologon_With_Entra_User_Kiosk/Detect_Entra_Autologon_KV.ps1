@@ -1,10 +1,10 @@
 # Detect_Entra_Autologon.ps1
 $ErrorActionPreference = "Stop"
 
-$ExpectedUpn       = "jatin@cloudinfra.onmicrosoft.com"
+$ExpectedUpn       = "jatin@cloudinfra.net"
 $ExpectedDomain    = "AzureAD"
 $AutologonExe      = Join-Path $env:ProgramFiles "KioskTools\Sysinternals\Autologon64.exe"
-$ExpectedThumbprint = "<CERT_THUMBPRINT_IN_LOCALMACHINE_MY>"
+$ExpectedThumbprint = "523DF5810040D4E3443D69673F7D0DEC2AF9819E"
 
 # Prereq gate: tool not present yet, do not remediate
 if (-not (Test-Path $AutologonExe)) {

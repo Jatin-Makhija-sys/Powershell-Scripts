@@ -4,14 +4,14 @@ $ErrorActionPreference = "Stop"
 # =========================
 # REQUIRED CONFIG
 # =========================
-$TenantId        = "<YOUR_TENANT_ID_GUID>"
-$ClientId        = "<YOUR_APP_REG_CLIENT_ID_GUID>"
-$CertThumbprint  = "<CERT_THUMBPRINT_IN_LOCALMACHINE_MY>"
+$TenantId        = "9dcda47d-f87c-44dd-a9ee-2243d525559e"
+$ClientId        = "df16bb7c-9fbd-4194-8499-bfa1f601afa9"
+$CertThumbprint  = "523DF5810040D4E3443D69673F7D0DEC2AF9819E"
 
-$VaultName       = "<YOUR_KEYVAULT_NAME>"
+$VaultName       = "Keyvault-autologon"
 $SecretName      = "Kiosk-AutoLogon-Password"
 
-$KioskUpn        = "jatin@cloudinfra.onmicrosoft.com"
+$KioskUpn        = "jatin@cloudinfra.net"
 $KioskDomain     = "AzureAD"
 
 $AutologonExe    = Join-Path $env:ProgramFiles "KioskTools\Sysinternals\Autologon64.exe"
