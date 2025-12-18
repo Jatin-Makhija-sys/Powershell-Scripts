@@ -43,11 +43,5 @@
       <DefaultProfile Id="{EDB3036B-780D-487D-A375-69369D8A8F78}"/>
     </Config>
 
-    <!-- Example for targeting a specific user (leave commented if not used)
-    <Config>
-      <Account>AzureAD\user@contoso.com</Account>
-      <DefaultProfile Id="{EDB3036B-780D-487D-A375-69369D8A8F78}"/>
-    </Config>
-    -->
   </Configs>
 </AssignedAccessConfiguration>
