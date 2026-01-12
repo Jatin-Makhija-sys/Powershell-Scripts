@@ -29,5 +29,4 @@ function Get-DotNetFramework {
         InstallPath = $p.InstallPath
     }
 }
-
 Get-DotNetFramework
