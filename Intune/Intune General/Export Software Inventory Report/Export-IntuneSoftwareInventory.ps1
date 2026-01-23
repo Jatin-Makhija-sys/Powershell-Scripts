@@ -14,10 +14,7 @@ DateCreated : 21-Jan-2026
 Blog        : https://cloudinfra.net
 
 .EXAMPLE
-.\Export-IntuneSoftwareInventory.ps1 -OutputPath "C:\Temp\Intune-SoftwareInventory.csv"
-
-.EXAMPLE
-.\Export-IntuneSoftwareInventory.ps1 -OutputPath "C:\Temp\Intune-SoftwareInventory.csv" -IncludeTimestamp
+.\Export-IntuneSoftwareInventory.ps1
 
 #>
 
