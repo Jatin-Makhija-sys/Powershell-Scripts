@@ -1,5 +1,3 @@
-#Requires -Version 5.1
-
 <#
 .SYNOPSIS
 Exports Microsoft Teams channels and their moderation settings.
@@ -18,6 +16,11 @@ The script uses:
 
 .EXAMPLE
 .\Teams_Channels_with_Moderation_Setting.ps1
+
+.NOTES
+    Author: Jatin Makhija
+    Copyright: Cloudinfra.net
+    Version: 1.0
 
 .EXAMPLE
 .\Teams_Channels_with_Moderation_Setting.ps1 `
