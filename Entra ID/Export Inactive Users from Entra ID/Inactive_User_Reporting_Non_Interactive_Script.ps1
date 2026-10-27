@@ -1,7 +1,7 @@
 # These values identify the Microsoft Entra tenant and the app registration used for certificate-based authentication.
-$TenantId = '9dcda47d-f87c-44dd-a9ee-2243d525559e'
-$ClientId = 'ac8a9c49-0d6b-447c-8ed0-c34339add967'
-$Thumbprint = 'C65C3975F312897103544953630F1E7E37A6FD52'
+$TenantId = '<tenant ID'
+$ClientId = '<client ID>'
+$Thumbprint = '<certificate thumbprint>'
 
 # Load the certificate from the CurrentUser personal store by thumbprint.
 # This certificate must be trusted and usable by the script account.
