@@ -31,7 +31,7 @@ Exit code 0 on success, 1 on failure.
 
 .NOTES
 Author: Jatin Makhija (cloudinfra.net)
-Version: 1.2.0
+Version: 1.3.0 (added TrustedPublisher step for vendor-signed catalogs)
 Created: 2025-11-04
 Tested on: Windows 11 25H2
 
@@ -96,6 +96,37 @@ try {
     )
     $pnputil = $pnputilPathCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
     if (-not $pnputil) { throw "pnputil.exe not found." }
+
+    # --- Trust the driver catalog's publisher (needed for non-WHQL, vendor-signed drivers such as Canon) ---
+    # Without this, pnputil fails with 0xE0000242 (-536870334): "publisher ... has not yet been established as trusted".
+    $InfFull  = (Resolve-Path -Path $InfPath).Path
+    $InfDir   = Split-Path -Path $InfFull -Parent
+    $catLine  = Select-String -Path $InfFull -Pattern '^\s*CatalogFile(\.NTamd64)?\s*=\s*(\S+)' | Select-Object -First 1
+    $catFiles = @()
+    if ($catLine) { $catFiles = @(Join-Path $InfDir $catLine.Matches[0].Groups[2].Value.Trim()) }
+    if (-not $catFiles -or -not (Test-Path $catFiles[0])) {
+        $catFiles = @(Get-ChildItem -Path $InfDir -Filter *.cat -File | Select-Object -ExpandProperty FullName)
+    }
+    foreach ($cat in $catFiles) {
+        $sig = Get-AuthenticodeSignature -FilePath $cat
+        if ($sig.Status -ne 'Valid' -or -not $sig.SignerCertificate) {
+            Add-LogEntry ("Catalog '{0}' signature status: {1}. Skipping publisher trust." -f $cat, $sig.Status) 'WARN'
+            continue
+        }
+        $cert = $sig.SignerCertificate
+        if ($cert.Subject -match 'O=Microsoft Corporation') {
+            Add-LogEntry ("Catalog '{0}' is Microsoft (WHQL) signed; no publisher trust needed." -f $cat)
+            continue
+        }
+        if (Test-Path ("Cert:\LocalMachine\TrustedPublisher\{0}" -f $cert.Thumbprint)) {
+            Add-LogEntry ("Publisher already trusted: {0} ({1})" -f $cert.Subject, $cert.Thumbprint)
+            continue
+        }
+        $store = New-Object System.Security.Cryptography.X509Certificates.X509Store('TrustedPublisher','LocalMachine')
+        $store.Open('ReadWrite')
+        try { $store.Add($cert) } finally { $store.Close() }
+        Add-LogEntry ("Added publisher to LocalMachine\TrustedPublisher: {0} ({1})" -f $cert.Subject, $cert.Thumbprint)
+    }
 
     Add-LogEntry "Staging driver with pnputil..."
     $pnputilArgs   = @('/add-driver', "`"$InfPath`"", '/install')
